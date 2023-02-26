@@ -1,7 +1,7 @@
 version: '3.9'
 services:
-  minio1:                       # rename on different nodes
-      hostname: minio1            # rename on different nodes
+  minio2:                       # rename on different nodes
+      hostname: minio2            # rename on different nodes
       image: quay.io/minio/minio
       command: server --console-address ":9001" http://minio{1...2}/data{1...2}
       ports:
@@ -14,8 +14,8 @@ services:
         MINIO_ROOT_USER: minio
         MINIO_ROOT_PASSWORD: minio123
       volumes:
-        - data1-1:/data1          # rename on different nodes
-        - data1-2:/data2          # rename on different nodes
+        - data2-1:/data1          # rename on different nodes
+        - data2-2:/data2          # rename on different nodes
       healthcheck:
         test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
         interval: 30s
@@ -24,11 +24,12 @@ services:
       networks:
         - my_service
 
-
 volumes:
-  data1-1:                      # rename on different nodes
-  data1-2:                      # rename on different nodes
+  data2-1:                      # rename on different nodes
+  data2-2:                      # rename on different nodes
 
 networks:
   my_service:
     external: true
+
+
